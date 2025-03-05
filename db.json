@@ -1,0 +1,188 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Learn Next.js",
+      "completed": true,
+      "userId": 1,
+      "projectId": 1
+    },
+    {
+      "id": 2,
+      "title": "Build a project with Tailwind CSS",
+      "completed": false,
+      "userId": 1,
+      "projectId": 1
+    },
+    {
+      "id": 3,
+      "title": "Implement Zustand for state management",
+      "completed": false,
+      "userId": 2,
+      "projectId": 2
+    },
+    {
+      "id": 4,
+      "title": "Create user authentication system",
+      "completed": true,
+      "userId": 3,
+      "projectId": null
+    },
+    {
+      "id": 5,
+      "title": "Design responsive UI",
+      "completed": false,
+      "userId": 2,
+      "projectId": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "password": "password123",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Team Member",
+      "email": "team@example.com",
+      "password": "password123",
+      "role": "team_member"
+    },
+    {
+      "id": 3,
+      "name": "Customer",
+      "email": "customer@example.com",
+      "password": "password123",
+      "role": "customer"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "E-commerce Website Redesign",
+      "budget": "5000",
+      "description": "Complete redesign of our e-commerce platform with modern UI and improved user experience.",
+      "timeline": "2 months",
+      "goals": "Increase conversion rate by 20% and improve mobile responsiveness.",
+      "status": "in_progress",
+      "customerId": 3,
+      "createdAt": "2023-11-01T10:00:00.000Z",
+      "files": [
+        "design_mockups.pdf",
+        "requirements.docx"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Mobile App Development",
+      "budget": "8000",
+      "description": "Develop a native mobile app for iOS and Android platforms with user authentication and payment processing.",
+      "timeline": "3 months",
+      "goals": "Launch on both app stores with at least 100 initial downloads.",
+      "status": "pending",
+      "customerId": 3,
+      "createdAt": "2023-11-15T14:30:00.000Z",
+      "files": [
+        "app_wireframes.pdf"
+      ]
+    }
+  ],
+  "proposals": [
+    {
+      "id": 1,
+      "projectId": 1,
+      "adminId": 1,
+      "title": "E-commerce Redesign Proposal",
+      "description": "Our team will completely redesign your e-commerce platform with a focus on conversion optimization and mobile responsiveness.",
+      "price": 4800,
+      "timeline": "8 weeks",
+      "deliverables": [
+        "Responsive website design",
+        "Product catalog optimization",
+        "Checkout process redesign",
+        "SEO improvements"
+      ],
+      "status": "accepted",
+      "createdAt": "2023-11-05T09:15:00.000Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "projectId": 1,
+      "senderId": 1,
+      "receiverId": 3,
+      "content": "Hello! I've reviewed your project requirements and submitted a proposal. Let me know if you have any questions.",
+      "createdAt": "2023-11-05T10:30:00.000Z",
+      "read": true
+    },
+    {
+      "id": 2,
+      "projectId": 1,
+      "senderId": 3,
+      "receiverId": 1,
+      "content": "Thanks for the proposal. I like what you've outlined. Can we discuss the timeline in more detail?",
+      "createdAt": "2023-11-05T14:45:00.000Z",
+      "read": true
+    },
+    {
+      "id": 1741208380919,
+      "projectId": 1,
+      "senderId": 3,
+      "senderName": "Customer",
+      "senderRole": "customer",
+      "receiverId": 1,
+      "content": "ggff",
+      "createdAt": "2025-03-05T20:59:40.919Z",
+      "read": false
+    },
+    {
+      "id": 1741208383125,
+      "projectId": 1,
+      "senderId": 3,
+      "senderName": "Customer",
+      "senderRole": "customer",
+      "receiverId": 1,
+      "content": "gdfddgf",
+      "createdAt": "2025-03-05T20:59:43.125Z",
+      "read": false
+    },
+    {
+      "id": 1741208384809,
+      "projectId": 1,
+      "senderId": 3,
+      "senderName": "Customer",
+      "senderRole": "customer",
+      "receiverId": 1,
+      "content": "gdfdgfdg",
+      "createdAt": "2025-03-05T20:59:44.809Z",
+      "read": false
+    },
+    {
+      "id": 1741208387497,
+      "projectId": 1,
+      "senderId": 3,
+      "senderName": "Customer",
+      "senderRole": "customer",
+      "receiverId": 1,
+      "content": "gdgdgf",
+      "createdAt": "2025-03-05T20:59:47.497Z",
+      "read": false
+    },
+    {
+      "id": 1741208394248,
+      "projectId": 1,
+      "senderId": 3,
+      "senderName": "Customer",
+      "senderRole": "customer",
+      "receiverId": 1,
+      "content": "fdsdf",
+      "createdAt": "2025-03-05T20:59:54.248Z",
+      "read": false
+    }
+  ],
+  "resetTokens": []
+}
