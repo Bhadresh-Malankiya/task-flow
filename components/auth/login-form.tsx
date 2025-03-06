@@ -1,8 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -11,11 +10,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, Loader2, Info } from "lucide-react"
+import { AlertCircle, Loader2 } from "lucide-react"
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  password: z.string().min(1, { message: "Password is required" }),
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
@@ -23,19 +22,8 @@ type LoginFormValues = z.infer<typeof loginSchema>
 export function LoginForm() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [offlineMode, setOfflineMode] = useState(false)
   const router = useRouter()
-  const { login, checkServer } = useAuthStore()
-
-  // Check server availability on component mount
-  useEffect(() => {
-    const checkServerStatus = async () => {
-      const isAvailable = await checkServer()
-      setOfflineMode(!isAvailable)
-    }
-
-    checkServerStatus()
-  }, [checkServer])
+  const { login } = useAuthStore()
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -54,9 +42,39 @@ export function LoginForm() {
       if (success) {
         router.push("/dashboard")
       } else {
-        const authStore = useAuthStore.getState()
-        setError(authStore.error || "Invalid email or password. Please try again.")
-        setOfflineMode(!authStore.serverAvailable)
+        setError("Invalid email or password")
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again later.")
+      console.error(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleDemoLogin = async (role: string) => {
+    setIsLoading(true)
+    setError(null)
+
+    let email = ""
+    switch (role) {
+      case "admin":
+        email = "admin@example.com"
+        break
+      case "team_member":
+        email = "team@example.com"
+        break
+      case "customer":
+        email = "customer@example.com"
+        break
+    }
+
+    try {
+      const success = await login(email, "12345678")
+      if (success) {
+        router.push("/dashboard")
+      } else {
+        setError(`Failed to login as ${role}`)
       }
     } catch (err) {
       setError("An error occurred. Please try again later.")
@@ -69,13 +87,6 @@ export function LoginForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {offlineMode && (
-          <Alert className="bg-amber-500/10 text-amber-500 border-amber-500/20">
-            <Info className="h-4 w-4" />
-            <AlertDescription>Server connection unavailable. You can still log in with demo accounts.</AlertDescription>
-          </Alert>
-        )}
-
         {error && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
@@ -111,31 +122,31 @@ export function LoginForm() {
           )}
         />
 
-        <div className="text-sm text-right">
-          <Link href="/reset-password" className="text-primary hover:underline">
-            Forgot password?
-          </Link>
-        </div>
-
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Logging in
             </>
           ) : (
-            "Sign In"
+            "Log In"
           )}
         </Button>
-
-        {offlineMode && (
-          <div className="text-xs text-center text-muted-foreground mt-2">
-            <p>Demo accounts:</p>
-            <p>admin@example.com / password123</p>
-            <p>team@example.com / password123</p>
-            <p>customer@example.com / password123</p>
-          </div>
-        )}
       </form>
+
+      <div className="mt-6">
+        <p className="text-sm text-center text-muted-foreground mb-2">Demo Accounts (Password: 12345678)</p>
+        <div className="grid grid-cols-3 gap-2">
+          <Button variant="outline" size="sm" onClick={() => handleDemoLogin("admin")} disabled={isLoading}>
+            Admin
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => handleDemoLogin("team_member")} disabled={isLoading}>
+            Team
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => handleDemoLogin("customer")} disabled={isLoading}>
+            Customer
+          </Button>
+        </div>
+      </div>
     </Form>
   )
 }

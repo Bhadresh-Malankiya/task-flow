@@ -29,7 +29,8 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
   const router = useRouter()
   const projectId = Number.parseInt(params.id)
 
-  const { currentProject, fetchProjectById, proposals, fetchProposals, messages, fetchMessages, isLoading, error } = useProjectStore()
+  const { currentProject, fetchProjectById, proposals, fetchProposals, messages, fetchMessages, isLoading, error } =
+    useProjectStore()
 
   const { user } = useAuthStore()
 

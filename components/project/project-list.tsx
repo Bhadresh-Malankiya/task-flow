@@ -29,10 +29,7 @@ export function ProjectList({ projects }: ProjectListProps) {
         <Card
           key={project.id}
           className="p-6 hover:bg-accent/10 transition-colors cursor-pointer"
-          onClick={(e) => {
-            e.preventDefault();
-            router.push(`/projects/${project.id}`)
-          }}
+          onClick={() => router.push(`/projects/${project.id}`)}
         >
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-2">

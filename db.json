@@ -70,10 +70,7 @@
       "status": "in_progress",
       "customerId": 3,
       "createdAt": "2023-11-01T10:00:00.000Z",
-      "files": [
-        "design_mockups.pdf",
-        "requirements.docx"
-      ]
+      "files": ["design_mockups.pdf", "requirements.docx"]
     },
     {
       "id": 2,
@@ -85,9 +82,7 @@
       "status": "pending",
       "customerId": 3,
       "createdAt": "2023-11-15T14:30:00.000Z",
-      "files": [
-        "app_wireframes.pdf"
-      ]
+      "files": ["app_wireframes.pdf"]
     }
   ],
   "proposals": [
@@ -127,62 +122,8 @@
       "content": "Thanks for the proposal. I like what you've outlined. Can we discuss the timeline in more detail?",
       "createdAt": "2023-11-05T14:45:00.000Z",
       "read": true
-    },
-    {
-      "id": 1741208380919,
-      "projectId": 1,
-      "senderId": 3,
-      "senderName": "Customer",
-      "senderRole": "customer",
-      "receiverId": 1,
-      "content": "ggff",
-      "createdAt": "2025-03-05T20:59:40.919Z",
-      "read": false
-    },
-    {
-      "id": 1741208383125,
-      "projectId": 1,
-      "senderId": 3,
-      "senderName": "Customer",
-      "senderRole": "customer",
-      "receiverId": 1,
-      "content": "gdfddgf",
-      "createdAt": "2025-03-05T20:59:43.125Z",
-      "read": false
-    },
-    {
-      "id": 1741208384809,
-      "projectId": 1,
-      "senderId": 3,
-      "senderName": "Customer",
-      "senderRole": "customer",
-      "receiverId": 1,
-      "content": "gdfdgfdg",
-      "createdAt": "2025-03-05T20:59:44.809Z",
-      "read": false
-    },
-    {
-      "id": 1741208387497,
-      "projectId": 1,
-      "senderId": 3,
-      "senderName": "Customer",
-      "senderRole": "customer",
-      "receiverId": 1,
-      "content": "gdgdgf",
-      "createdAt": "2025-03-05T20:59:47.497Z",
-      "read": false
-    },
-    {
-      "id": 1741208394248,
-      "projectId": 1,
-      "senderId": 3,
-      "senderName": "Customer",
-      "senderRole": "customer",
-      "receiverId": 1,
-      "content": "fdsdf",
-      "createdAt": "2025-03-05T20:59:54.248Z",
-      "read": false
     }
   ],
   "resetTokens": []
 }
+

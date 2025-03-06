@@ -4,130 +4,100 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, ArrowLeft, Loader2, Zap } from "lucide-react"
-import Link from "next/link"
-import { useAuthStore } from "@/store/auth-store"
+import { Logo } from "@/components/ui/logo"
 
-const resetSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
+const formSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address." }),
 })
 
-type ResetFormValues = z.infer<typeof resetSchema>
+type FormValues = z.infer<typeof formSchema>
 
 export function ResetPasswordCard() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const { requestPasswordReset } = useAuthStore()
 
-  const form = useForm<ResetFormValues>({
-    resolver: zodResolver(resetSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
     },
   })
 
-  async function onSubmit(data: ResetFormValues) {
-    setIsLoading(true)
+  async function onSubmit(data: FormValues) {
+    setIsSubmitting(true)
     setError(null)
 
     try {
-      const success = await requestPasswordReset(data.email)
-      if (success) {
-        setIsSuccess(true)
-      } else {
-        setError("We couldn't find an account with that email address.")
-      }
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+      setIsSubmitted(true)
     } catch (err) {
-      setError("An error occurred. Please try again later.")
-      console.error(err)
+      setError("An error occurred. Please try again.")
     } finally {
-      setIsLoading(false)
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="w-full max-w-md"
-    >
-      <Card className="border-none shadow-xl bg-card/80 backdrop-blur-sm">
-        <CardContent className="pt-6">
-          <div className="flex flex-col items-center mb-6">
-            <div className="bg-primary rounded-full p-2 mb-2">
-              <Zap className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h1 className="text-2xl font-bold">Reset Password</h1>
-            <p className="text-muted-foreground text-sm mt-1">Enter your email to receive a password reset link</p>
-          </div>
-
-          {isSuccess ? (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center space-y-4">
-              <Alert className="bg-green-500/10 text-green-500 border-green-500/20">
-                <AlertDescription>Password reset link sent! Check your email for instructions.</AlertDescription>
-              </Alert>
-              <p className="text-sm text-muted-foreground">If you don't see the email, check your spam folder.</p>
-              <Button asChild variant="outline" className="mt-4 w-full">
-                <Link href="/login">
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Login
-                </Link>
-              </Button>
-            </motion.div>
-          ) : (
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {error && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
+    <Card className="w-full max-w-md shadow-lg">
+      <CardHeader className="space-y-1">
+        <div className="flex justify-center mb-4">
+          <Logo />
+        </div>
+        <CardTitle className="text-2xl font-bold text-center">Reset Password</CardTitle>
+        <CardDescription className="text-center">
+          Enter your email address and we'll send you a link to reset your password
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {isSubmitted ? (
+          <Alert>
+            <AlertDescription>
+              If an account exists with that email, we've sent password reset instructions to your inbox.
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="name@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="your.email@example.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending link
-                    </>
-                  ) : (
-                    "Send Reset Link"
-                  )}
-                </Button>
-
-                <div className="text-center mt-4">
-                  <Link href="/login" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    <ArrowLeft className="inline-block mr-1 h-3 w-3" />
-                    Back to login
-                  </Link>
-                </div>
-              </form>
-            </Form>
-          )}
-        </CardContent>
-      </Card>
-    </motion.div>
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Reset Link"}
+              </Button>
+            </form>
+          </Form>
+        )}
+      </CardContent>
+      <CardFooter className="flex justify-center">
+        <Button variant="link" className="px-0" asChild>
+          <a href="/login">Back to login</a>
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }
 

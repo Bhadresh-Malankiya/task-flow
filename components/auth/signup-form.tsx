@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -45,7 +45,7 @@ export function SignupForm() {
   const watchPassword = form.watch("password")
 
   // Calculate password strength whenever password changes
-  useState(() => {
+  useEffect(() => {
     if (!watchPassword) {
       setPasswordStrength(0)
       return
@@ -64,7 +64,7 @@ export function SignupForm() {
     if (/[^A-Za-z0-9]/.test(watchPassword)) strength += 1
 
     setPasswordStrength(strength)
-  })
+  }, [watchPassword])
 
   async function onSubmit(data: SignupFormValues) {
     setIsLoading(true)

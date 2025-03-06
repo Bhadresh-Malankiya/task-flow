@@ -125,7 +125,7 @@ const isServerAvailable = async (): Promise<boolean> => {
 
     // Check if the response is JSON
     const contentType = response.headers.get("content-type")
-    return response.ok && !!contentType && contentType.includes("application/json")
+    return response.ok && contentType && contentType.includes("application/json")
   } catch (error) {
     console.warn("Server check failed:", error)
     return false
